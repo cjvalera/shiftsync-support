@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShiftSync - Privacy Policy</title>
+    <meta name="description" content="How ShiftSync handles your schedule, your account, and what your colleagues can see.">
+    <link rel="icon" href="favicon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="_style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="brand"><img src="appicon.png" alt=""><a href="index.html">ShiftSync</a></div>
+        <h1>Privacy Policy</h1>
+        <p class="subtitle">ShiftSync - A shared calendar for nurses and shift workers</p>
+        <p class="effective">Effective date: September 5, 2026</p>
+
+        <h2>Overview</h2>
+        <p>ShiftSync is a calendar for people who work shifts. You enter your schedule once, and the app shows it next to the schedules of colleagues you have chosen to connect with, so you can see who is working tonight and when you are all off.</p>
+        <p>Because sharing a schedule with other people is the point of the app, some of your data is stored on our servers rather than only on your phone. This policy explains exactly what that is, who can see it, and how to get rid of it. In short: we store what the app needs to work, we share it only with the colleagues you connect to, and we do not sell it, use it for advertising, or run analytics on it.</p>
+
+        <h2>Two ways to use ShiftSync</h2>
+        <p><strong>On this phone only.</strong> If you choose "Not now, keep it on this phone" when the app first opens, no account is created and nothing leaves your device. Your schedule lives in the app's local database on your phone and is covered by your device backup. Nothing in the rest of this policy about servers applies until you sign in.</p>
+        <p><strong>With an account.</strong> Signing in with Apple or with your email creates an account, and your schedule is synced to our servers so it can be shared with the colleagues you connect to and restored if you get a new phone.</p>
+
+        <h2>What we collect, and why</h2>
+        <table>
+            <tr><th>Data</th><th>Why we have it</th></tr>
+            <tr><td>Email address</td><td>To sign you in and send you a one-time code. If you use Sign in with Apple and hide your email, we receive Apple's private relay address instead.</td></tr>
+            <tr><td>Name</td><td>The display name colleagues see on the People tab. With Sign in with Apple, Apple provides it once on first sign-in; you can change it in the app.</td></tr>
+            <tr><td>Account identifier</td><td>A random ID that every row of your data is keyed by.</td></tr>
+            <tr><td>Push notification token</td><td>So our server can tell your phone when a colleague accepts your invite, changes a shared schedule, or offers to cover a shift. Stored only if you allow notifications.</td></tr>
+            <tr><td>Your schedule</td><td>Your jobs, their colours, your shift patterns and exceptions, cover requests and offers, who you are connected to, and what level of detail each connection may see.</td></tr>
+            <tr><td>Notification preferences</td><td>Which events you want to be told about.</td></tr>
+            <tr><td>Calendar feed token</td><td>A random secret that makes up your subscribable calendar link, if you create one.</td></tr>
+        </table>
+        <p>All of this is linked to your account and used for nothing except making the app work. We collect no location data, no health or medical information, no contacts, no advertising identifiers, and no usage analytics.</p>
+
+        <h2>What your colleagues can see</h2>
+        <p>Nobody sees your schedule until you connect with them by sharing an invite code and they redeem it. Each connection has a sharing level that you control, per person, in Settings:</p>
+        <ul>
+            <li><strong>Minimal</strong> shares only which days you work. Not the hours, not where.</li>
+            <li><strong>Standard</strong> adds the start and end time of each shift and whether you are on call. Your workplace is still hidden.</li>
+            <li><strong>Full</strong> adds the job name and unit.</li>
+        </ul>
+        <p>Your name is the only thing a connection sees before you share a schedule. Colleagues' schedules are shown to you under the same rules, and they are never included when you export your calendar or create a feed link. You can lower a level or remove a connection at any time; the change applies immediately on our servers.</p>
+
+        <h2>Data on your phone</h2>
+        <ul>
+            <li><strong>Local database.</strong> The app keeps a copy of your schedule and a bounded window of your connections' schedules on your device, so it works offline and opens instantly.</li>
+            <li><strong>Session.</strong> Your sign-in session is stored in the iOS Keychain.</li>
+            <li><strong>Calendar export.</strong> If you choose "Export my schedule", the app asks for write-only access to your calendars and writes your shifts into a calendar named ShiftSync on your device. It cannot read your other calendars. Colleagues' shifts are never written.</li>
+            <li><strong>Shift reminders.</strong> Reminders before a shift are scheduled on the device by iOS and do not go through our servers.</li>
+        </ul>
+
+        <h2>The calendar feed link</h2>
+        <p>If you create a feed link to subscribe from a desktop or another calendar app, anyone who has that link can read your schedule. That is how calendar subscriptions work. The link contains a random secret, not your account ID, and you can rotate or remove it from Settings at any time, which immediately stops the old link from working.</p>
+
+        <h2>Who processes your data</h2>
+        <p>We do not sell your data or share it with anyone for marketing. The services below process it on our behalf, only to run the app:</p>
+        <ul>
+            <li><strong>Supabase</strong> hosts our database, authentication, and the functions that send notifications and serve calendar feeds. Your account and schedule data are stored there, encrypted in transit and at rest. See the <a href="https://supabase.com/privacy">Supabase privacy policy</a>.</li>
+            <li><strong>Apple</strong> provides Sign in with Apple and delivers push notifications. Notification payloads contain only what is needed to show the alert. See <a href="https://www.apple.com/legal/privacy/">Apple's privacy policy</a>.</li>
+        </ul>
+        <p>ShiftSync contains no third-party analytics, advertising, or tracking SDKs.</p>
+
+        <h2>How long we keep it</h2>
+        <p>We keep your data for as long as your account exists. Shifts you delete are removed from the schedules your colleagues see straight away and purged from our servers. When your account is deleted, everything linked to it is deleted, including your connections, invites, cover requests, feed links, and push tokens.</p>
+
+        <h2>Deleting your account</h2>
+        <p>You can delete your account and all data associated with it from Settings in the app, or by emailing <a href="mailto:cjvalera@hotmail.com">cjvalera@hotmail.com</a> from the address you signed in with. We will confirm and complete the deletion within 30 days. Signing out does not delete your account; the schedule stays on our servers so you can sign back in.</p>
+        <p>If you use the app without an account, deleting the app deletes the schedule.</p>
+
+        <h2>Your rights</h2>
+        <p>Wherever you live, you can ask us what data we hold about you, ask for a copy, correct it, or have it deleted, by writing to the address below. You can also see and change most of it directly in the app.</p>
+
+        <h2>Not a medical or employment record</h2>
+        <p>ShiftSync is a personal calendar. It is not connected to your employer's rostering system and stores no patient, clinical, or health information. Do not enter patient details into shift notes.</p>
+
+        <h2>Children</h2>
+        <p>ShiftSync is intended for working adults. It is not directed at children under 13, and we do not knowingly collect information from them. If you believe a child has created an account, contact us and we will delete it.</p>
+
+        <h2>Changes to this policy</h2>
+        <p>If we change this policy, the new version will be posted on this page with a new effective date. If a change materially affects what is shared or with whom, we will tell you in the app before it takes effect.</p>
+
+        <h2>Contact</h2>
+        <p>Questions about this policy or your data: <a href="mailto:cjvalera@hotmail.com">cjvalera@hotmail.com</a>.</p>
+        <p class="nav">
+            <a href="index.html">Home</a> &middot;
+            <a href="support.html">Support</a> &middot;
+            <a href="privacy.html">Privacy Policy</a> &middot;
+            <a href="terms.html">Terms of Use</a>
+        </p>
+    </div>
+</body>
+</html>
