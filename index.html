@@ -2,40 +2,264 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>ShiftSync - Shift calendar for nurses</title>
     <meta name="description" content="ShiftSync is a calendar for nurses and shift workers: enter your rotation once, see who is working tonight, and find when you are all off.">
     <link rel="icon" href="favicon.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <link rel="stylesheet" href="_style.css">
+    <link rel="stylesheet" href="_glass.css">
     <link rel="canonical" href="https://shiftsync.valeralabs.io/">
+    <meta name="theme-color" content="#eef2fb" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#07090f" media="(prefers-color-scheme: dark)">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="ShiftSync - Shift calendar for nurses">
+    <meta property="og:description" content="Enter your rotation once, see who is working tonight, and find when you are all off.">
+    <meta property="og:image" content="https://shiftsync.valeralabs.io/appicon.png">
+    <meta property="og:url" content="https://shiftsync.valeralabs.io/">
     <!-- Moved to shiftsync.valeralabs.io; the GitHub Pages copy only forwards there. -->
     <script>if(location.hostname.endsWith('github.io'))location.replace('https://shiftsync.valeralabs.io/'+location.pathname.replace(/^\/shiftsync-support\/?/,''))</script>
+    <style>
+        /* hero */
+        .hero {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 2.5rem;
+            align-items: center;
+            padding: clamp(3rem, 10vh, 6.5rem) 0 clamp(2.5rem, 6vh, 4rem);
+        }
+        @media (max-width: 820px) { .hero { grid-template-columns: 1fr; text-align: center; gap: 2rem; } .hero .pill { margin-left: auto; margin-right: auto; } .hero-visual { order: -1; } }
+        .hero h1 {
+            font-size: clamp(2.5rem, 6.4vw, 4.4rem);
+            font-weight: 700;
+            letter-spacing: -0.035em;
+            line-height: 1.02;
+            margin: 1.25rem 0 1.1rem;
+        }
+        .hero h1 .shine {
+            background: linear-gradient(100deg, var(--text) 0%, var(--text) 40%, var(--accent) 60%, var(--text) 80%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent;
+            animation: shine 7s ease-in-out infinite;
+        }
+        @keyframes shine { 0%, 100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
+        .lede { font-size: clamp(1.05rem, 2vw, 1.22rem); color: var(--body); max-width: 50ch; }
+        @media (max-width: 820px) { .lede { margin: 0 auto; } }
+        .cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.75rem; align-items: center; }
+        @media (max-width: 820px) { .cta-row { justify-content: center; } }
+        .btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.75rem 1.25rem; border-radius: 999px;
+            font-weight: 600; font-size: 0.98rem; color: var(--text);
+            background: var(--glass-strong);
+            -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
+            box-shadow: inset 0 1px 0 var(--glass-edge), inset 0 -1px 0 var(--glass-edge-soft), var(--glass-shadow);
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+        .btn:hover { text-decoration: none; transform: translateY(-1px); }
+        .btn.primary { color: #fff; background: linear-gradient(160deg, #4c8dff, #0a4fd6); box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.15), 0 14px 30px -12px rgba(10,79,214,0.7); }
+        .btn svg { width: 18px; height: 18px; }
+        .btn .soon { font-size: 0.72rem; font-weight: 600; padding: 0.1rem 0.45rem; border-radius: 999px; background: rgba(255,255,255,0.25); }
+
+        /* 3D glass icon */
+        .hero-visual { display: flex; justify-content: center; perspective: 1200px; }
+        .stage {
+            position: relative;
+            width: min(300px, 70vw); aspect-ratio: 1;
+            transform-style: preserve-3d;
+            transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            --mx: 50%; --my: 30%;
+        }
+        .stage.is-hover { transition: transform 0.08s linear; }
+        .stage .glass-layer { position: absolute; inset: 0; border-radius: 36%; transform: translateZ(0); overflow: hidden; }
+        .stage .glass-layer::after {
+            content: ""; position: absolute; inset: -40%;
+            background: radial-gradient(circle at var(--mx) var(--my), var(--specular) 0%, transparent 28%);
+            opacity: 0.55; mix-blend-mode: soft-light; transition: opacity 0.3s ease;
+        }
+        .stage.is-hover .glass-layer::after { opacity: 0.95; }
+        .icon { position: absolute; inset: 14%; transform-style: preserve-3d; animation: float 6s ease-in-out infinite; }
+        .icon svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+        .icon .l0 { transform: translateZ(30px); filter: drop-shadow(0 30px 40px rgba(10, 30, 80, 0.35)); }
+        .icon .l1 { transform: translateZ(70px); filter: drop-shadow(0 16px 22px rgba(10, 30, 80, 0.22)); }
+        .icon .l2 { transform: translateZ(110px); filter: drop-shadow(0 12px 16px rgba(10, 30, 80, 0.28)); }
+        .icon .l3 { transform: translateZ(135px); pointer-events: none; }
+        @media (prefers-color-scheme: dark) {
+            .icon .l0 { filter: drop-shadow(0 30px 44px rgba(0, 0, 0, 0.65)); }
+            .icon .l1 { filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.5)); }
+            .icon .l2 { filter: drop-shadow(0 12px 16px rgba(0, 0, 0, 0.5)); }
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0) rotateZ(0deg); } 50% { transform: translateY(-8px) rotateZ(-1.5deg); } }
+        /* small orbiting glass chips around the icon */
+        .chip {
+            position: absolute; padding: 0.4rem 0.7rem; border-radius: 999px;
+            font-size: 0.8rem; font-weight: 600; color: var(--text); white-space: nowrap;
+            transform: translateZ(var(--z, 90px));
+        }
+        .chip.a { top: 6%; right: -8%; --z: 120px; }
+        .chip.b { bottom: 10%; left: -10%; --z: 100px; }
+        .chip.c { bottom: -4%; right: 6%; --z: 80px; }
+        .chip .sw { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 0.4rem; vertical-align: -1px; }
+
+        /* features */
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.1rem; perspective: 1400px; margin-top: 1rem; }
+        .feature {
+            position: relative; border-radius: 24px; padding: 1.4rem 1.4rem 1.3rem;
+            transform-style: preserve-3d;
+            transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            --mx: 50%; --my: 30%;
+        }
+        .feature.is-hover { transition: transform 0.08s linear; }
+        .feature .glass-layer { position: absolute; inset: 0; border-radius: inherit; transform: translateZ(0); overflow: hidden; }
+        .feature .glass-layer::after {
+            content: ""; position: absolute; inset: -40%;
+            background: radial-gradient(circle at var(--mx) var(--my), var(--specular) 0%, transparent 28%);
+            opacity: 0.5; mix-blend-mode: soft-light; transition: opacity 0.3s ease;
+        }
+        .feature.is-hover .glass-layer::after { opacity: 0.95; }
+        .feature > * { position: relative; }
+        .feature .sym {
+            width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center;
+            background: linear-gradient(160deg, #4c8dff, #0a4fd6); color: #fff;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 10px 20px -10px rgba(10,79,214,0.8);
+            transform: translateZ(28px);
+        }
+        .feature .sym svg { width: 22px; height: 22px; }
+        .feature h3 { font-size: 1.08rem; font-weight: 650; letter-spacing: -0.015em; margin: 0.95rem 0 0.3rem; transform: translateZ(18px); }
+        .feature p { color: var(--body); font-size: 0.95rem; transform: translateZ(12px); }
+
+        /* trust row */
+        .trust { margin-top: 1.1rem; padding: 1.25rem 1.4rem; border-radius: 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1.5rem; }
+        .trust strong { display: block; font-size: 1.05rem; letter-spacing: -0.01em; }
+        .trust span { color: var(--body); font-size: 0.95rem; }
+
+        @media (prefers-reduced-motion: reduce) { .icon, .hero h1 .shine { animation: none; } .stage, .feature, .btn { transition: none; } }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="brand"><img src="appicon.png" alt=""><a href="index.html">ShiftSync</a></div>
-        <h1>ShiftSync</h1>
-        <p class="subtitle">A calendar for nurses and shift workers</p>
-        <p>Enter your shifts once, as a weekly pattern or a rotation like "3 on, 2 off", and ShiftSync answers the questions that actually come up: is Jess working tonight, when are the four of us all off, who can cover Thursday.</p>
-        <ul>
-            <li><strong>Rotations, not repetition.</strong> Describe the pattern and the app fills in the months.</li>
-            <li><strong>Colleagues side by side.</strong> Connect with an invite code and see their shifts next to yours. Sharing is mutual: connect only with people you would show your rota to.</li>
-            <li><strong>Honest about what it knows.</strong> A day it has not synced is shown as unknown, never as free.</li>
-            <li><strong>Cover requests.</strong> Ask for a shift to be covered and let colleagues offer.</li>
-            <li><strong>Your calendar, your device.</strong> Export to the Calendar app, or subscribe from anywhere with a private feed link.</li>
-        </ul>
-        <div class="card">
-            <p><strong>Free on the App Store.</strong> No ads, no analytics, no selling your data.</p>
-            <p>Coming soon.</p>
-        </div>
-        <p>Questions? See <a href="support.html">Support</a>.</p>
-        <p class="nav">
-            <a href="index.html">Home</a> &middot;
-            <a href="support.html">Support</a> &middot;
-            <a href="privacy.html">Privacy Policy</a> &middot;
-            <a href="terms.html">Terms of Use</a>
-        </p>
+    <div class="bg" aria-hidden="true">
+        <canvas id="bg"></canvas>
+        <div class="grain"></div>
+        <div class="vignette"></div>
     </div>
+
+    <div class="page">
+        <nav class="nav glass" aria-label="Primary">
+            <a class="brand" href="index.html"><img src="appicon.png" alt=""><span>ShiftSync</span></a>
+            <div class="nav-links">
+                <a href="index.html" aria-current="page">Home</a>
+                <a href="support.html">Support</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="terms.html">Terms</a>
+            </div>
+        </nav>
+
+        <header class="hero">
+            <div class="hero-text">
+                <span class="pill"><span class="dot" aria-hidden="true"></span>Free on the App Store, coming soon</span>
+                <h1>Your rota, <span class="shine">and everyone else's.</span></h1>
+                <p class="lede">Enter your shifts once, as a weekly pattern or a rotation like "3 on, 2 off", and ShiftSync answers the questions that actually come up: is Jess working tonight, when are the four of us all off, who can cover Thursday.</p>
+                <div class="cta-row">
+                    <span class="btn primary" aria-disabled="true">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.4.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1zM13.9 5c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.5-.7.8-1.2 2-1.1 3.1 1.2.1 2.4-.6 3.1-1.4z"/></svg>
+                        App Store <span class="soon">soon</span>
+                    </span>
+                    <a class="btn" href="support.html">Get in touch</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="stage" data-tilt="16">
+                    <div class="glass-layer glass"></div>
+                    <div class="icon" aria-hidden="true">
+                        <svg class="l0" viewBox="0 0 100 100">
+                            <defs>
+                                <linearGradient id="ss-tile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5aa1ff"/><stop offset="1" stop-color="#0a4fd6"/></linearGradient>
+                                <linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.55"/><stop offset="0.5" stop-color="#fff" stop-opacity="0.05"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+                            </defs>
+                            <rect x="6" y="6" width="88" height="88" rx="24" fill="url(#ss-tile)"/>
+                            <rect x="6" y="6" width="88" height="88" rx="24" fill="url(#gloss)"/>
+                            <rect x="7" y="7" width="86" height="86" rx="23" fill="none" stroke="#fff" stroke-opacity="0.5" stroke-width="1.2"/>
+                        </svg>
+                        <svg class="l1" viewBox="0 0 100 100">
+                            <rect x="22" y="26" width="56" height="48" rx="12" fill="#fff" fill-opacity="0.92"/>
+                            <rect x="22" y="26" width="56" height="48" rx="12" fill="url(#gloss)"/>
+                        </svg>
+                        <svg class="l2" viewBox="0 0 100 100">
+                            <rect x="30" y="36" width="30" height="7" rx="3.5" fill="#0a5ae0"/>
+                            <rect x="30" y="46.5" width="40" height="7" rx="3.5" fill="#63a8ff"/>
+                            <rect x="30" y="57" width="24" height="7" rx="3.5" fill="#0a5ae0"/>
+                            <rect x="30" y="36" width="30" height="3" rx="1.5" fill="#fff" fill-opacity="0.35"/>
+                            <rect x="30" y="46.5" width="40" height="3" rx="1.5" fill="#fff" fill-opacity="0.45"/>
+                            <rect x="30" y="57" width="24" height="3" rx="1.5" fill="#fff" fill-opacity="0.35"/>
+                        </svg>
+                        <svg class="l3" viewBox="0 0 100 100">
+                            <path d="M13 38 Q 13 13, 38 13" fill="none" stroke="#fff" stroke-opacity="0.85" stroke-width="2.2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <span class="chip glass a" aria-hidden="true"><span class="sw" style="background:#0a5ae0"></span>Jess &middot; Night</span>
+                    <span class="chip glass b" aria-hidden="true"><span class="sw" style="background:#34c759"></span>All off Sat</span>
+                    <span class="chip glass c" aria-hidden="true"><span class="sw" style="background:#ff9f0a"></span>Cover Thu?</span>
+                </div>
+            </div>
+        </header>
+
+        <section class="features" aria-label="Features">
+            <div class="feature" data-tilt="10">
+                <div class="glass-layer glass"></div>
+                <div class="sym" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg></div>
+                <h3>Rotations, not repetition</h3>
+                <p>Describe the pattern and the app fills in the months.</p>
+            </div>
+            <div class="feature" data-tilt="10">
+                <div class="glass-layer glass"></div>
+                <div class="sym" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.5a5 5 0 0 1 6 5.5"/></svg></div>
+                <h3>Colleagues side by side</h3>
+                <p>Connect with an invite code and see their shifts next to yours. Sharing is mutual: connect only with people you would show your rota to.</p>
+            </div>
+            <div class="feature" data-tilt="10">
+                <div class="glass-layer glass"></div>
+                <div class="sym" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg></div>
+                <h3>Honest about what it knows</h3>
+                <p>A day it has not synced is shown as unknown, never as free.</p>
+            </div>
+            <div class="feature" data-tilt="10">
+                <div class="glass-layer glass"></div>
+                <div class="sym" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 14-5.3L20 8"/><path d="M20 4v4h-4"/><path d="M20 12a8 8 0 0 1-14 5.3L4 16"/><path d="M4 20v-4h4"/></svg></div>
+                <h3>Cover requests</h3>
+                <p>Ask for a shift to be covered and let colleagues offer.</p>
+            </div>
+            <div class="feature" data-tilt="10">
+                <div class="glass-layer glass"></div>
+                <div class="sym" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>
+                <h3>Your calendar, your device</h3>
+                <p>Export to the Calendar app, or subscribe from anywhere with a private feed link.</p>
+            </div>
+            <div class="feature" data-tilt="10">
+                <div class="glass-layer glass"></div>
+                <div class="sym" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+                <h3>Private by design</h3>
+                <p>No ads, no analytics, no selling your data. Only the colleagues you connect to can see your shifts.</p>
+            </div>
+        </section>
+
+        <div class="trust glass">
+            <div><strong>Free on the App Store.</strong><span>No ads, no analytics, no selling your data. Coming soon.</span></div>
+            <a class="btn" href="support.html">Questions? See Support</a>
+        </div>
+
+        <footer class="foot glass">
+            <span>&copy; 2026 <a href="https://valeralabs.io/">Valera Labs</a></span>
+            <span class="links">
+                <a href="index.html">Home</a>
+                <a href="support.html">Support</a>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Use</a>
+            </span>
+        </footer>
+    </div>
+
+    <script src="_glass.js"></script>
 </body>
 </html>
